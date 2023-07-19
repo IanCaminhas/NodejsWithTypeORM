@@ -3,6 +3,7 @@ precisamos desse Router. Através do Router, conseguimos desacoplar as rotas do 
 do express(const app do arquivo server.ts)
  */
 import { Router } from 'express'
+import { rolesRouter } from '@roles/http/routes/roles.routes'
 
 //Criação do roteador, ou seja, o definidor de rotas
 //routes é uma instância do Router
@@ -18,5 +19,7 @@ routes.get('/', (request, response) => {
   //Se eu quiser enviar um olá dev! para o usuario em json
   return response.json({ message: 'Olá Dev!' })
 })
+
+routes.use('/roles', rolesRouter)
 
 export { routes }
