@@ -1,10 +1,11 @@
-import { Role } from '@roles/entities/Role'
+import { RolesRepository } from '@roles/repositories/RolesRepository'
 import { Router } from 'express'
 const rolesRouter = Router()
+const rolesRepository = new RolesRepository()
 
 // Como não tinha um banco de dados, foi usado um array para armazenar os dados em memória
 //Falo que roles é do tipo Role[], ou seja, Role array
-const roles: Role[] = []
+//const roles: Role[] = [] //essa estrrtura de dados foi transferida para o RolesRepository. Lá é que manipulamos
 
 rolesRouter.post('/', (request, response) => {
   //Por enquanto, só o name que está sendo enviado pelo front-end
@@ -19,6 +20,8 @@ rolesRouter.post('/', (request, response) => {
     created_at: new Date(),
   }
   */
+  /* Isso foi transferido para o RolesRepository. Estava fazendo a
+  manipulação aqui no arquivo de rotas. Isso foi para o RolesRepository
   //o request tem o body com as informações a serem cadastradas
   const { name } = request.body
   //role tem o uuid criado.
@@ -33,6 +36,10 @@ rolesRouter.post('/', (request, response) => {
 
   //incluindo a role no array
   roles.push(role)
+  */
+  const { name } = request.body
+  //como o metodo create de rolesRepository recebe um objeto, por isso passei o name entre {}
+  const role = rolesRepository.create({ name })
 
   return response.status(201).json(role)
 })
