@@ -13,7 +13,7 @@ export class RolesRepository {
   }
   //pode ser assim tbm:  create(name: string){}
   //Posso já fazer desestruturado:  create({name}: CreateRoleDTO){}
-  create(props: CreateRoleDTO) {
+  create(props: CreateRoleDTO): Role {
     //role tem o uuid criado.
     const role = new Role()
 
@@ -29,5 +29,9 @@ export class RolesRepository {
     //incluindo a role no array
     this.roles.push(role)
     return role
+  }
+
+  findAll(): Role[] {
+    return this.roles
   }
 }
