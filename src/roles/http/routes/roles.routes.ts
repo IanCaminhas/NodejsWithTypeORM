@@ -1,13 +1,13 @@
 import { RolesRepository } from '@roles/repositories/RolesRepository'
+import { CreateRoleController } from '@roles/useCases/createRole/CreateRoleController'
 import { Router } from 'express'
-import { request } from 'http'
 const rolesRouter = Router()
-const rolesRepository = new RolesRepository()
-
+const rolesRepository = new RolesRepository() //essa estrutura foi para o controlador
+const createRoleController = new CreateRoleController()
 // Como não tinha um banco de dados, foi usado um array para armazenar os dados em memória
 //Falo que roles é do tipo Role[], ou seja, Role array
 //const roles: Role[] = [] //essa estrrtura de dados foi transferida para o RolesRepository. Lá é que manipulamos
-
+//sabe por que request e response não são tipados ? porque eles estao dentro da estrutura Router() que já infere os tipos
 rolesRouter.post('/', (request, response) => {
   //Por enquanto, só o name que está sendo enviado pelo front-end
   /*
@@ -38,7 +38,18 @@ rolesRouter.post('/', (request, response) => {
   //incluindo a role no array
   roles.push(role)
   */
-  const { name } = request.body
+  /*
+  Toda a estrutura foi passada para controlador
+  const { name } = request.body // foi passada para o controlador
+  //O que uma rota se resume ? receber e encaminhar os dados para um controlador específico,
+  //Ou seja, precisamos de um estrutura específica para lidar com as informaçoes as seguintes informações:
+  //criar instância do repositório, verificar as regras de negócio, tudo que precisar ser feito em termos de manipulação da informação
+  //Em suma, tudo isso não deve ser feito pela rota
+  //Conrolador tbm tem as suas ações limitadas: não ele que deve verificar if (roleAlreadyExists) {}, pois se trata de uma regra de negócio
+  //Vai ter outra estrutura para tratar regras de negócio: os uses cases
+  //uses cases juntamente com as entidades é quem controlam as regras de negócio que precisam ser atendidas pela aplicação
+  //controlador vai trabalhar com o case use. Eles dois juntos que vão realizar as verificações
+  //controlador encaminha as verificações ao casos de uso
   const roleAlreadyExists = rolesRepository.findByName(name)
   //se tá passando uma role com nome igual a uma role existente...
   if (roleAlreadyExists) {
@@ -49,6 +60,9 @@ rolesRouter.post('/', (request, response) => {
   const role = rolesRepository.create({ name })
 
   return response.status(201).json(role)
+  */
+  //Em suma: a rota recebe as informações, envia para o controlador. A rora vai pegar o resultado do controlador e devolver
+  return createRoleController.handle(request, response)
 })
 
 rolesRouter.get('/', (request, response) => {
