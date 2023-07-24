@@ -39,6 +39,12 @@ rolesRouter.post('/', (request, response) => {
   roles.push(role)
   */
   const { name } = request.body
+  const roleAlreadyExists = rolesRepository.findByName(name)
+  //se tá passando uma role com nome igual a uma role existente...
+  if (roleAlreadyExists) {
+    return response.status(400).json({ error: 'Role already exists ' })
+  }
+  //se tá passando uma role com nome diferente a uma role existente...
   //como o metodo create de rolesRepository recebe um objeto, por isso passei o name entre {}
   const role = rolesRepository.create({ name })
 

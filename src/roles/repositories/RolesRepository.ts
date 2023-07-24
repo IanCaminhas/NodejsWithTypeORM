@@ -34,4 +34,20 @@ export class RolesRepository {
   findAll(): Role[] {
     return this.roles
   }
+  //Ao passar o parâmetro para esse metodo e der undefined, quer dizer que não foi encontrado no array
+  //Ao passar o parâmetro para esse metodo e uma role ser retornada, quer dizer que foi encontrado no array
+  //esse method é útil na criação de roles. Vou fazer uma verificação antes de criar uma role na aplicação
+  findByName(name: string): Role | undefined {
+    /*para cada role percorrida, eu verifico se a role.name do momento
+    é exatamenet igual ao name enviado por parâmetro.
+    O find percorre elemento por elemento do array.
+    role => role.name === name -> isso é uma arrow function.
+    Posso fazer da seguinte forma tbm:
+       return this.roles.find((role) => {
+        return role.name === name
+    })
+  }
+    */
+    return this.roles.find(role => role.name === name)
+  }
 }
