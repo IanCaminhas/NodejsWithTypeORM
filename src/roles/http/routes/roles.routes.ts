@@ -1,9 +1,9 @@
 import { RolesRepository } from '@roles/repositories/RolesRepository'
-import { CreateRoleController } from '@roles/useCases/createRole/CreateRoleController'
 import { Router } from 'express'
+import { createRolesController } from '@roles/useCases/createRole'
 const rolesRouter = Router()
 const rolesRepository = new RolesRepository() //essa estrutura foi para o controlador
-const createRoleController = new CreateRoleController()
+
 // Como não tinha um banco de dados, foi usado um array para armazenar os dados em memória
 //Falo que roles é do tipo Role[], ou seja, Role array
 //const roles: Role[] = [] //essa estrrtura de dados foi transferida para o RolesRepository. Lá é que manipulamos
@@ -62,7 +62,7 @@ rolesRouter.post('/', (request, response) => {
   return response.status(201).json(role)
   */
   //Em suma: a rota recebe as informações, envia para o controlador. A rora vai pegar o resultado do controlador e devolver
-  return createRoleController.handle(request, response)
+  return createRolesController.handle(request, response)
 })
 
 rolesRouter.get('/', (request, response) => {
