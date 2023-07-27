@@ -1,8 +1,8 @@
-import { RolesRepository } from '@roles/repositories/RolesRepository'
 import { Router } from 'express'
 import { createRolesController } from '@roles/useCases/createRole'
+import { listRolesController } from '@roles/useCases/listRoles'
 const rolesRouter = Router()
-const rolesRepository = new RolesRepository() //essa estrutura foi para o controlador
+//const rolesRepository = new RolesRepository() essa estrutura foi para o useCases/listRoles
 
 // Como não tinha um banco de dados, foi usado um array para armazenar os dados em memória
 //Falo que roles é do tipo Role[], ou seja, Role array
@@ -66,8 +66,7 @@ rolesRouter.post('/', (request, response) => {
 })
 
 rolesRouter.get('/', (request, response) => {
-  const roles = rolesRepository.findAll()
-  return response.json(roles)
+  return listRolesController.handle(request, response)
 })
 
 export { rolesRouter }
