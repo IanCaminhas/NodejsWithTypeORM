@@ -7,10 +7,22 @@ type CreateRoleDTO = {
 
 export class RolesRepository {
   private roles: Role[] = []
-
-  constructor() {
+  private static INSTANCE: RolesRepository
+  /*a ideia é ter apenas um ponto global de acesso para essa instância de classe.
+  Por isso que o constructor agora é private. Não posso mais dar new na classe
+  */
+  private constructor() {
     this.roles = []
   }
+
+  public static getInstance(): RolesRepository {
+    //se a instância ainda não foi criada, crie para mim
+    if (!RolesRepository.INSTANCE) {
+      RolesRepository.INSTANCE = new RolesRepository()
+    }
+    return RolesRepository.INSTANCE
+  }
+
   //pode ser assim tbm:  create(name: string){}
   //Posso já fazer desestruturado:  create({name}: CreateRoleDTO){}
   create(props: CreateRoleDTO): Role {
