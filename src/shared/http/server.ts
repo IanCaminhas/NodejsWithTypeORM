@@ -12,9 +12,11 @@ export class AppServer {
 import 'dotenv/config'
 import express, { NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
+import swaggerUI from 'swagger-ui-express'
 import cors from 'cors'
 import { routes } from './routes'
 import { AppError } from '@shared/errors/AppError'
+import swaggerFile from '../../swagger.json'
 
 //Instância do express
 const app = express()
@@ -24,6 +26,8 @@ app.use(cors())
 //Vai trabalhar com o padrão Json
 //Isso é para não ter um retorno com conteúdo indefinido(undefined)
 app.use(express.json())
+//configuração do swagger. '/docs' é a rota/endpoint. Manipualdor é o swaggerUI.... swaggerUI.setup é a configuração a ser considerada
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 //arquivo de rotas, ou seja, o roteador
 app.use(routes)
