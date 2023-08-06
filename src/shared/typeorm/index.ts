@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm'
+import { CreateRolesTable1691316678868 } from './migrations/1691316678868-createRolesTable'
 
 /*
 dataSource exige o port:3306, username, password e host:'localhost'.
@@ -15,5 +16,6 @@ export const dataSource = new DataSource({
   type: 'sqlite',
   database: './db.sqlite',
   entities: [],
-  migrations: [],
+  //Cada migração que vou criando, vou adicionando nesse array. Migração também é uma classe
+  migrations: [CreateRolesTable1691316678868],
 })
