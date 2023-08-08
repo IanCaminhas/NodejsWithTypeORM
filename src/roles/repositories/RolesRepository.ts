@@ -7,7 +7,7 @@ type CreateRoleDTO = {
   name: string
 }
 //De quais parâmetros eu preciso para conseguir paginar as informações ?
-export type paginateParams = {
+export type PaginateParams = {
   page: number //número da página
   skip: number //Número de registros que quero pular
   take: number //Quantos registros eu quero pegar depois que eu pulei um certo número
