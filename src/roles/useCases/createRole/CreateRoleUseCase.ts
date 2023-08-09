@@ -10,15 +10,10 @@ type CreateRoleDTO = {
 export class CreateRoleUseCase {
   constructor(private rolesRepository: RolesRepository) {}
 
-  //Posso fazer assim também: props: CreateRoleDTO
-  execute({ name }: CreateRoleDTO): Role {
-    //como uma propriedade da classe(constructor(private rolesRepository: RolesRepository)), preciso usar o this
-    const roleAlreadyExists = this.rolesRepository.findByName(name)
-    //Não pode existir roles com nomes iguais
+  async execute({ name }: CreateRoleDTO): Promise<Role> {
+    const roleAlreadyExists = await this.rolesRepository.findByName(name)
     if (roleAlreadyExists) {
-      //return response.status(400).json({ error: 'Role already exists ' }) -> ao invés de usar esse disparo de erro...
-      //posso passar o status code tbm:  throw new AppError('Role already exists', 400)... Mas como 400 já é o padrão, foi omitido
-      throw new AppError('Role already exists') // vou usar a classe AppError para disparar o erro
+      throw new AppError('Role already exists')
     }
     return this.rolesRepository.create({ name })
   }
