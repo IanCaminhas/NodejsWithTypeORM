@@ -126,9 +126,19 @@
           "description": "Identify of a role",
           "required": true,
           "schema": {
-            "type": "string"
-          },
-          "style": "label"
+            "type": "string",
+            "properties": {
+              "id":{
+                "type":"string"
+              },
+              "name":{
+                "type":"string"
+              },
+              "created_at": {
+                "type":"string"
+              }
+            }
+          }
         }
       ],
       "requestBody": {
@@ -164,9 +174,65 @@
                     "type": "string"
                   }
                 }
-              }
+              },
+              "example": {
+                "id": "a8af89cc-6cb1-4715-ad7b-dc89c57eaafd",
+                "name": "Administrator",
+                "created_at": "2023-08-09T17:37:21.000Z"
+          }
             }
           }
+        },
+        "400": {
+          "description": "Bad request."
+        },
+        "404": {
+          "description": "Role not found."
+        }
+      }
+    },
+    "get": {
+      "tags": ["Roles"],
+      "summary": "Find role by ID",
+      "description": "Returns roles based on ID.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Identify of a role",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "style": "label"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success.",
+          "content": {
+            "applicatiom/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "id": "a8af89cc-6cb1-4715-ad7b-dc89c57eaafd",
+                "name": "Administrator",
+                "created_at": "2023-08-09T17:37:21.000Z"
+              }
+            }
+            }
         },
         "400": {
           "description": "Bad request."
