@@ -58,7 +58,7 @@
       }
     },
     "get": {
-      "tags": ["Role"],
+      "tags": ["Roles"],
       "summary": "List all roles",
       "description": "Returns all roles paginated.",
       "parameters": [
@@ -70,7 +70,8 @@
           "schema": {
             "type": "number",
             "example": "page=1"
-          }
+          },
+          "style": "label"
         },
           {
             "name": "limit",
@@ -109,6 +110,69 @@
               }
             }
           }
+        }
+      }
+    }
+  },
+  "/roles/{id}": {
+    "put": {
+      "tags": ["Roles"],
+      "summary": "Update a role",
+      "description": "Update a role.",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Identify of a role",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "style": "label"
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "applicatiom/json": {
+            "schema":{
+              "type":"object",
+              "properties": {
+                "name": {
+                  "type":"string"
+                }
+              },
+              "example": "Administrator"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Success.",
+          "content": {
+            "applicatiom/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Bad request."
+        },
+        "404": {
+          "description": "Role not found."
         }
       }
     }
