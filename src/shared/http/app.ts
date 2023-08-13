@@ -5,6 +5,7 @@ import 'express-async-errors'
 import swaggerUI from 'swagger-ui-express'
 import cors from 'cors'
 import { routes } from './routes'
+import { errors } from 'celebrate'
 import { AppError } from '@shared/errors/AppError'
 import swaggerFile from '../../swagger.json'
 
@@ -21,6 +22,15 @@ app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 //arquivo de rotas, ou seja, o roteador
 app.use(routes)
+/*
+  Esse middleware do celebrate precisa ser chamado logo após as rotas.
+  errors() já é a própria implementação que o celebrate já traz pra gente...
+  Esse middleware já vai detectar erros de validação e já vai interromper a execução das rotas.
+  Se gerar algum erro em app.use(routes), esse errors() já vai ser disparado e vai interromper...
+  Em suma, não deixa o usuário seguir em frente: salvar,atualizar uma informação, etc...
+  Por que ? ele não está informando da forma que a aplicação espera em realação às validações
+*/
+app.use(errors())
 
 /*middlewares que tratam erros usam o parâmetro a mais denominado error
 A tipagem Error é global. Por isso, não preciso importar
