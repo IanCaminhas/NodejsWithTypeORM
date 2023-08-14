@@ -8,6 +8,7 @@ import { routes } from './routes'
 import { errors } from 'celebrate'
 import { AppError } from '@shared/errors/AppError'
 import swaggerFile from '../../swagger.json'
+import '@shared/container'
 
 //Instância do express
 const app = express()

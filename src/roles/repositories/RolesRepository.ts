@@ -1,43 +1,17 @@
 import { Role } from '@roles/entities/Role'
 import { dataSource } from '@shared/typeorm'
 import { Repository } from 'typeorm'
-
-//representa as informações que permito receber da aplicação front-end(ou postman, insomnia, etc) através da rota
-type CreateRoleDTO = {
-  name: string
-}
-//De quais parâmetros eu preciso para conseguir paginar as informações ?
-export type PaginateParams = {
-  page: number //número da página
-  skip: number //Número de registros que quero pular
-  take: number //Quantos registros eu quero pegar depois que eu pulei um certo número
-}
-
-//De que forma esses dados paginados serão retornados ?
-export type RolesPaginateProperties = {
-  per_page: number //Quantos registros por página vou retornar ?
-  total: number //Total de registros
-  current_page: number //página atual
-  data: Role[] //São os dados em si. Como é um repository, vou retornar um array de Role
-}
+import {
+  CreateRoleDTO,
+  PaginateParams,
+  RolesPaginateProperties,
+} from './IRolesRepository'
 
 export class RolesRepository {
-  //esse repository vai manipular as informações da estrutura de dados Role
   private repository: Repository<Role>
-  private static INSTANCE: RolesRepository
 
-  private constructor() {
-    //Estou atribuindo a minha propriedade repository o Repository de Role
-    //Agora tenho a instância para ficar manipulando Roles no projeto
+  constructor() {
     this.repository = dataSource.getRepository(Role)
-  }
-
-  public static getInstance(): RolesRepository {
-    //se a instância ainda não foi criada, crie para mim
-    if (!RolesRepository.INSTANCE) {
-      RolesRepository.INSTANCE = new RolesRepository()
-    }
-    return RolesRepository.INSTANCE
   }
 
   //A requisição precisa ser assíncorna(async), pois estou fazendo uma conexão com o BD
