@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 import { ListRolesUseCase } from './ListRolesUseCase'
+import { container } from 'tsyringe'
 
 export class ListRolesController {
-  constructor(private listRolesUseCase: ListRolesUseCase) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
+    const listRolesUseCase = container.resolve(ListRolesUseCase)
     /*A página foi informada e é maior que 0 ?
       Se sim, retorna a página. Se não, retorna a page 1.
       Quando retorna 1 quer dizer que o usuário passou algum
@@ -29,7 +29,7 @@ export class ListRolesController {
         ? Number(request.query.limit)
         : 15
 
-    const roles = await this.listRolesUseCase.execute({ page, limit })
+    const roles = await listRolesUseCase.execute({ page, limit })
     return response.json(roles)
   }
 }

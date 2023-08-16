@@ -3,11 +3,12 @@ import { dataSource } from '@shared/typeorm'
 import { Repository } from 'typeorm'
 import {
   CreateRoleDTO,
+  IRolesRepository,
   PaginateParams,
   RolesPaginateProperties,
 } from './IRolesRepository'
 
-export class RolesRepository {
+export class RolesRepository implements IRolesRepository {
   private repository: Repository<Role>
 
   constructor() {

@@ -8,6 +8,9 @@ import { container } from 'tsyringe'
   2 parâmetros.
   primeiro parâmetro é um token. Geralmente esse Token é o nome da classe.
   O segundo parâmetro é a instanciação da classe em si.
+
+  Quando eu usar o @inject, vou ter que informar o token entre aspas. Por isso
+  que o token tem o mesmo nome da classe.
 */
 container.registerSingleton<IRolesRepository>(
   'RolesRepository',
