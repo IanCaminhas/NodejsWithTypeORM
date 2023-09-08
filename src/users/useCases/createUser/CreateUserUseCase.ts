@@ -21,7 +21,7 @@ export class CreateUserUseCase {
   @inject('Roles Repository'): vai ser injetado em private rolesRepository: IRolesRepository */
   constructor(
     @inject('UsersRepository') private usersRepository: IUsersRepository,
-    @inject('Roles Repository') private rolesRepository: IRolesRepository,
+    @inject('RolesRepository') private rolesRepository: IRolesRepository,
   ) {}
 
   async execute({

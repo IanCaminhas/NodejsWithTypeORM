@@ -4,6 +4,7 @@ do express(const app do arquivo server.ts)
  */
 import { Router } from 'express'
 import { rolesRouter } from '@roles/http/routes/roles.routes'
+import { usersRouter } from '@users/http/users.routes'
 
 //Criação do roteador, ou seja, o definidor de rotas
 //routes é uma instância do Router
@@ -21,5 +22,6 @@ routes.get('/', (request, response) => {
 })
 
 routes.use('/roles', rolesRouter)
+routes.use('/users', usersRouter)
 
 export { routes }
