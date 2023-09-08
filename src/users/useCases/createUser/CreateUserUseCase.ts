@@ -57,6 +57,6 @@ export class CreateUserUseCase {
       role, //esse é o role buscado
     })
 
-    return user
+    return this.usersRepository.save(user)
   }
 }
