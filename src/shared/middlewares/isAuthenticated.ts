@@ -3,6 +3,10 @@ import { NextFunction, Request, Response } from 'express'
 import { Secret, verify } from 'jsonwebtoken'
 import authConfig from '@config/auth'
 
+type JwtPayloadProps = {
+  sub: string
+}
+
 /*O middleware possui assinatura com três parâmetros: request, response e o next
 O next encaminha a requisição para a próxima rota, middleware, etc...
 */
@@ -32,9 +36,16 @@ export const isAuthenticated = (
     /*params: 1 - token 2 - secret
         Esse method vai pegar a secret e inserí-la em verify signature. Isso é lá no site do jwt...
         Se eu colocar um caractere a mais em alguma parte do token lá no site, a assinatura não é validada.
-        Esse teste que o method verify faz
+        Esse teste que o method verify faz.
+        verify() retorna um JwtPayload
     */
-    verify(token, authConfig.jwt.secret as Secret)
+    const decodedToken = verify(token, authConfig.jwt.secret as Secret)
+    //Como retorna um JwtPayload, desejo pegar o sub. Também posso pegar outras propriedades tais como exp, iat, etc. JwtPayload é uma interface(ou seja, é um tipo)
+    const { sub } = decodedToken as JwtPayloadProps
+    /*Aqui vou precisar fazer um override(sobrescrita) na request. Request não tem uma propriedade id nativamente
+    Para efetivar a sobrescrita, foi criado um arquivo de definição de tipo.
+    Olhe em  @types/expess/index.ts*/
+    request.user = { id: sub }
     /*se o verify não retornar nada, o fluxo tem que prosseguir
     para o próximo middleware ou para a requisição em si(vai ser o controller) */
     return next()
