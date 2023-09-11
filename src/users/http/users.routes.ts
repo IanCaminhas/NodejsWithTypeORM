@@ -4,14 +4,20 @@ import { container } from 'tsyringe'
 import { CreateUserController } from '@users/useCases/createUser/CreateUserController'
 import { ListUsersController } from '@users/useCases/listUsers/ListUsersController'
 import { CreateLoginController } from '@users/useCases/createLogin/CreateLoginController'
+import { isAuthenticated } from '@shared/middlewares/isAuthenticated'
 
 const usersRouter = Router()
 const createUserController = container.resolve(CreateUserController)
 const listUsersController = container.resolve(ListUsersController)
 const createLoginController = container.resolve(CreateLoginController)
 
+/*Para criar um usuário, invoco o middleware isAuthenticated.
+Ou seja, para garantir que o user está autenticado.
+Aqui estou protegendo a rota.
+*/
 usersRouter.post(
   '/',
+  isAuthenticated,
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
@@ -26,8 +32,13 @@ usersRouter.post(
   },
 )
 
+/*Para listar os users, invoco o middleware isAuthenticated.
+Ou seja, para garantir que o user está autenticado.
+Aqui estou protegendo a rota.
+*/
 usersRouter.get(
   '/',
+  isAuthenticated,
   celebrate({
     [Segments.QUERY]: {
       page: Joi.number(),

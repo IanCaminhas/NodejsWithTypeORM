@@ -6,6 +6,7 @@ import { ListRolesController } from '@roles/useCases/listRoles/ListRolesControll
 import { ShowRoleController } from '@roles/useCases/showRole/ShowRoleController'
 import { UpdateRoleController } from '@roles/useCases/updateRole/UpdateRoleController'
 import { DeleteRoleController } from '@roles/useCases/deleteRole/DeleteRoleController'
+import { isAuthenticated } from '@shared/middlewares/isAuthenticated'
 
 const rolesRouter = Router()
 const createRolesController = container.resolve(CreateRoleController)
@@ -13,6 +14,13 @@ const listRolesController = container.resolve(ListRolesController)
 const showRolesController = container.resolve(ShowRoleController)
 const updateRolesController = container.resolve(UpdateRoleController)
 const deleteRolesController = container.resolve(DeleteRoleController)
+
+/*Se todas as rotas deste arquivo usarem o middleware para garantir a autenticação, posso fazer numa linha só.
+Ao invés de fazer rota em rota.
+Para todas as rotas, a requisição vai passar primeiro pelo rolesRouter.use(isAuthenticated)...
+Portanto, para cada rota vamos ter a autenticação.
+*/
+rolesRouter.use(isAuthenticated)
 
 //Se em celebrate gerar erro, o createRolesController.handle(request, response) nem é chamado
 rolesRouter.post(
