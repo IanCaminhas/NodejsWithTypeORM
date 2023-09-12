@@ -42,8 +42,12 @@ export default {
         toString('hex') -> transformo numa string no padrão hexadecimal.
       */
       const fileHash = crypto.randomBytes(10).toString('hex')
-      //file.originalname -> arquivo que veio do front-end
+      /*file.originalname -> Nome do arquivo que veio do front-end
+        em file posso receber image.png, image.jpg, avatar.png
+        concateno image,hashGerado e extensão
+      */
       const filename = `${fileHash}_${file.originalname}`
+      //o filename que vai ser retornado
       callback(null, filename)
     },
   }),
