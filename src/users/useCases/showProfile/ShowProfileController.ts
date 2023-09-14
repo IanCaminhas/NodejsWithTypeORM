@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 import { ShowProfileUseCase } from './ShowProfileUseCase'
 
-export class howProfileController {
+export class ShowProfileController {
   async handle(request: Request, response: Response): Promise<Response> {
     const showProfileUseCase = container.resolve(ShowProfileUseCase)
 
