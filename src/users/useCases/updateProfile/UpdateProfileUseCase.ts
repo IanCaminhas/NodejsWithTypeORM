@@ -34,7 +34,7 @@ export class UpdateProfileUseCase {
 
     const userUpdateEmail = await this.usersRepository.findByEmail(email)
     //O novo email existe com outro usuário ? não posso deixar editar o email colocando de outro usuário
-    if (userUpdateEmail && userUpdateEmail.id != userId) {
+    if (userUpdateEmail && userUpdateEmail.id !== userId) {
       throw new AppError('There is already one user with this email', 400)
     }
 
@@ -44,7 +44,7 @@ export class UpdateProfileUseCase {
       const checkOldPassword = await compare(old_password, user.password)
       //A senha antiga não confere com a senha armazenada no BD
       if (!checkOldPassword) {
-        throw new AppError('Old password does not martch', 404)
+        throw new AppError('Old password does not match', 404)
       }
       user.password = await hash(password, 10)
     }
