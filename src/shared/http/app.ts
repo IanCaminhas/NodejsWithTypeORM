@@ -4,20 +4,27 @@ import express, { NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
 import swaggerUI from 'swagger-ui-express'
 import cors from 'cors'
+import path from 'node:path'
 import { routes } from './routes'
 import { errors } from 'celebrate'
 import { AppError } from '@shared/errors/AppError'
 import swaggerFile from '../../swagger.json'
 import '@shared/container'
+import uploadConfig from '@config/upload'
 
 //Instância do express
 const app = express()
 
 app.use(cors())
-
 //Vai trabalhar com o padrão Json
 //Isso é para não ter um retorno com conteúdo indefinido(undefined)
 app.use(express.json())
+/*Isso aqui é uma rota estática construída com express
+Quando a requisição /files for feita, a imagem de avatar vai ser procurada no caminho: uploadConfig.directory.
+Essa é a requisição: http://localhost:3000/files.
+Fazendo no navegador http://localhost:3000/files/492726382bca54497e87_Passagem.jpg, essa imagem tem que aparecer
+*/
+app.use('/files', express.static(uploadConfig.directory))
 //configuração do swagger. '/docs' é a rota/endpoint. Manipualdor é o swaggerUI.... swaggerUI.setup é a configuração a ser considerada
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
