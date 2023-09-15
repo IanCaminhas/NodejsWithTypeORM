@@ -270,6 +270,96 @@
         }
       }
     }
+  },
+  "/users": {
+    "post": {
+      "tags":["Users"],
+      "summary": "Create a user",
+      "description": "Create a new user",
+      "requestBody": {
+        "content": {
+          "applicatiom/json": {
+            "schema": {
+              "type":"object",
+              "properties": {
+                "name":{
+                  "type":"string"
+                },
+                "email": {
+                  "type":"string"
+                },
+                "password": {
+                  "type":"string"
+                },
+                "isAdmin": {
+                  "type": "boolean"
+                },
+                "roleId": {
+                  "type":"string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses":{
+        "201": {
+          "description": "User created.",
+          "content":{
+            "applicatiom/json": {
+              "schema":{
+                "type":"object",
+                "properties":{
+                  "id":{
+                    "type":"string"
+                  },
+                  "name":{
+                    "type":"string"
+                  },
+                  "email": {
+                    "type":"string"
+                  },
+                  "password": {
+                    "type":"string"
+                  },
+                  "isAdmin": {
+                    "type":"boolean"
+                  },
+                  "roleId": {
+                    "type":"string"
+                  },
+                  "created_at": {
+                    "type":"string"
+                  }
+                },
+                "example": {
+                  "id": "57827706-4cae-4a3c-b7e8-89e687f960b7",
+	                "name": "John Doe",
+	                "email": "John@mail.com",
+	                "isAdmin": false,
+	                "role": {
+		                  "id": "d2a795e9-b107-4229-bec5-66c966c2599d",
+		                  "name": "Technology",
+		                  "created_at": "2023-09-12T18:25:53.000Z"
+	                },
+	                "created_at": "2023-09-14T21:46:21.000Z",
+	                "avatar_url": null
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description":"Email address already used."
+        },
+        "401": {
+          "description": "Invalid authentication token."
+        },
+        "404": {
+          "description": "Role not found."
+        }
+      }
+    }
   }
 }
 }
